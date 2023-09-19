@@ -23,6 +23,10 @@ def fragmentar_arquivo(nome_arquivo, num_partes):
                     arquivo_parte.write(buffer)
                     bytes_lidos += len(buffer)
 
+                # Calcular e exibir a porcentagem de progresso
+                progresso = (i + 1) / num_partes * 100
+                print(f'Progresso: {progresso:.2f}%')
+
 if __name__ == "__main__":
     import os
 
