@@ -1,15 +1,15 @@
-import os
-
 def fragmentar_arquivo(nome_arquivo, num_partes):
     with open(nome_arquivo, 'r') as arquivo:
+        # Ler o conteúdo do arquivo em uma lista de linhas
         linhas = arquivo.readlines()
-        total_linhas = len(linhas)
-        linhas_por_parte = total_linhas // num_partes
+
+        # Calcular o número de linhas por parte
+        num_linhas_por_parte = len(linhas) // num_partes
 
         for i in range(num_partes):
             # Calcular os índices de início e fim para cada parte
-            inicio = i * linhas_por_parte
-            fim = (i + 1) * linhas_por_parte if i < num_partes - 1 else total_linhas
+            inicio = i * num_linhas_por_parte
+            fim = (i + 1) * num_linhas_por_parte if i < num_partes - 1 else len(linhas)
 
             # Criar o nome do arquivo de saída
             nome_parte = f'NOME_ARQUIVO_PART_{i + 1}.txt'
@@ -27,4 +27,4 @@ if __name__ == "__main__":
     num_partes = int(input("Digite o número de partes desejadas: "))
 
     fragmentar_arquivo(nome_arquivo, num_partes)
-    print(f'O arquivo "{nome_arquivo}" foi fragmentado em {num_partes} partes, mantendo a integridade das linhas.')
+    print(f'O arquivo "{nome_arquivo}" foi fragmentado em {num_partes} partes, preservando a integridade das linhas.')
