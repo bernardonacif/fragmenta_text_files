@@ -1,27 +1,31 @@
 def fragmentar_arquivo(nome_arquivo, num_partes):
-    # Ler o conteúdo do arquivo de entrada
     with open(nome_arquivo, 'r') as arquivo:
-        conteudo = arquivo.read()
+        # Ler o tamanho total do arquivo
+        tamanho_total = os.path.getsize(nome_arquivo)
+        
+        # Calcular o tamanho aproximado de cada parte
+        tamanho_parte = tamanho_total // num_partes
 
-    # Calcular o tamanho aproximado de cada parte
-    tamanho_parte = len(conteudo) // num_partes
+        for i in range(num_partes):
+            # Criar o nome do arquivo de saída
+            nome_parte = f'NOME_ARQUIVO_PART_{i + 1}.txt'
 
-    for i in range(num_partes):
-        # Calcular os índices de início e fim para cada parte
-        inicio = i * tamanho_parte
-        fim = (i + 1) * tamanho_parte if i < num_partes - 1 else len(conteudo)
+            with open(nome_parte, 'w') as arquivo_parte:
+                bytes_lidos = 0
 
-        # Extrair a parte atual
-        parte = conteudo[inicio:fim]
+                while bytes_lidos < tamanho_parte:
+                    # Ler uma porção do arquivo
+                    buffer = arquivo.read(1024)  # Ler em pedaços de 1KB
+                    if not buffer:
+                        break
 
-        # Criar o nome do arquivo de saída
-        nome_parte = f'NOME_ARQUIVO_PART_{i + 1}.txt'
-
-        # Escrever a parte em um novo arquivo
-        with open(nome_parte, 'w') as arquivo_parte:
-            arquivo_parte.write(parte)
+                    # Escrever a porção lida no arquivo de saída
+                    arquivo_parte.write(buffer)
+                    bytes_lidos += len(buffer)
 
 if __name__ == "__main__":
+    import os
+
     nome_arquivo = input("Digite o nome do arquivo de entrada: ")
     num_partes = int(input("Digite o número de partes desejadas: "))
 
